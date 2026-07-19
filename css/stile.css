@@ -1,0 +1,297 @@
+/* ==========================================================================
+   FOGLIO DI STILE GENERALE - PORTALE GATTILE
+   ========================================================================== */
+
+/* 1. RESET E IMPOSTAZIONI DI BASE
+   -------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fafafa;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+/* 2. TIPOGRAFIA ED ELEMENTI STRUTTURALI SEMPLICI
+   -------------------------------------------------------------------------- */
+h2, h3 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+.separatore-sezione {
+    margin: 40px 0;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+.testo-secondario {
+    color: #7f8c8d;
+    font-size: 12px;
+    display: block;
+    margin-top: 10px;
+}
+
+/* 3. LAYOUT COMUNI: HEADER E FOOTER
+   -------------------------------------------------------------------------- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-bottom: 1px solid #eef2f5;
+}
+
+header h1 {
+    font-size: 24px;
+    color: #2c3e50;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #5a738e;
+    margin-right: 20px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+header nav a:hover {
+    color: #007bff;
+}
+
+header .user-status {
+    font-size: 14px;
+}
+
+header .user-status a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-top: 1px solid #eef2f5;
+    margin-top: 50px;
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+/* 4. COMPONENTI INTERFACCIA: ALERT DI STATO (PHP & JS)
+   -------------------------------------------------------------------------- */
+.alert {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.alert-success { background-color: #c6f6d5; color: #22543d; }
+.alert-danger    { background-color: #fed7d7; color: #742a2a; }
+.alert-warning   { background-color: #feebc8; color: #744210; }
+
+/* Nasconde l'alert JS per i turni finché non viene attivato dallo script */
+.hidden-alert {
+    display: none;
+}
+
+/* 5. STRUTTURA DELLE CARD DEI GATTI (HOME E PORTALE REACT)
+   -------------------------------------------------------------------------- */
+.griglia-gatti {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.card-gatto {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    width: 280px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-gatto:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+
+.placeholder-gatto {
+    background-color: #edf2f7;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 50px;
+}
+
+/* 6. STRUTTURA DEI FORM E CONTROLLI DI INPUT
+   -------------------------------------------------------------------------- */
+form {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #eef2f5;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+/* Dimensionamento larghezze dei contenitori form */
+.pannello-form-stretto { max-width: 400px; }
+.pannello-form        { max-width: 500px; }
+.pannello-form-esteso  { max-width: 600px; }
+.pannello-avviso-stretto { max-width: 500px; }
+
+.campo-form {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+/* Campi di input testuali e selettori */
+form input[type="text"],
+form input[type="password"],
+form input[type="number"],
+form input[type="date"],
+form input[type="datetime-local"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e0;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+form input:focus, form select:focus, form textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Allineamento elementi affiancati (es: inserimento gatto) */
+.riga-form {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.colonna-form {
+    flex: 1;
+}
+
+/* Gestione Checkbox e Radio Button */
+.opzione-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.opzione-checkbox input[type="checkbox"],
+.lista-opzioni-verticale input[type="radio"] {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+}
+
+.opzione-checkbox label {
+    display: inline;
+    margin-bottom: 0;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Campi specifici pagina volontariato */
+.etichetta-lista {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.lista-opzioni-verticale {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.opzione-turno {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.stato-slot {
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Feedback visivo prenotazione gatti (Gestito via CustomEvent JS) */
+#elenco-gatti-selezionati-visivo {
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 5px;
+}
+
+/* 7. SET BOTTONI COMPORTAMENTALI
+   -------------------------------------------------------------------------- */
+form button[type="submit"],
+.bottone-disabilitato,
+.bottone-admin,
+.bottone-login,
+.bottone-registrazione,
+.bottone-volontariato {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* Stati e varianti cromatiche dei pulsanti */
+.bottone-disabilitato   { background-color: #6c757d; cursor: not-allowed; }
+.bottone-registrazione { background-color: #007bff; }
+.bottone-registrazione:hover { background-color: #0056b3; }
+.bottone-login, 
+.bottone-volontariato   { background-color: #28a745; }
+.bottone-login:hover, 
+.bottone-volontariato:hover { background-color: #218838; }
+.bottone-admin         { background-color: #dc3545; }
+.bottone-admin:hover   { background-color: #c82333; }

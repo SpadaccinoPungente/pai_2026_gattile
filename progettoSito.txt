@@ -1,0 +1,31 @@
+========================================================================
+RELAZIONE TECNICA E SCELTE PROGETTUALI - MATRICOLA: 297508
+Progetto: Portale Gattile (Esame di Progettazione di Applicazioni Internet)
+========================================================================
+
+1. SEPARAZIONE DEI PRIVILEGI DEL DATABASE E PREVENZIONE CRITICITÀ
+In conformità con le specifiche d'esame e le buone norme di sicurezza informatica (Principio del Privilegio Minimo), l'accesso al DBMS MySQL/MariaDB è stato rigorosamente segmentato utilizzando tre utenti applicativi distinti anziché l'utente 'admin' di sistema:
+- 'lecture': Dotato di soli privilegi di SELECT. Utilizzato per le operazioni di lettura generica (es. estrazione ultimi arrivi in Home, popolamento JSON dei gatti e verifica disponibilità turni).
+- 'modifier': Dotato di permessi SELECT, INSERT, UPDATE. Utilizzato nelle aree protette dove gli utenti registrati o gli amministratori effettuano scritture (prenotazione visite, turni di volontariato e inserimento schede gatti).
+- 'registrator': Dotato del solo ed esclusivo privilegio di INSERT sulla tabella 'utenti'. Invocato unicamente nello script di registrazione per isolare e blindare la creazione dei nuovi profili.
+
+NOTA ARCHITETTURALE (FLUSSO DI REGISTRAZIONE): Per rispettare in modo chirurgico questo isolamento, il file 'registrazione.php' adotta una strategia a doppia connessione: invoca l'utente 'lecture' per verificare preventivamente se lo username inserito sia già presente, e solo in caso negativo apre la connessione con 'registrator' per completare l'inserimento.
+
+2. PROTEZIONE DALLE SQL INJECTION E SICUREZZA DEI DATI
+Nelle pagine di interazione con il database (in particolare nella fase di autenticazione in 'login.php' e nella creazione del profilo in 'registrazione.php'), l'applicazione si difende dalle SQL Injection mediante l'utilizzo sistematico di query preparate (Prepared Statements) tramite le funzioni '$conn->prepare()' e '$stmt->bind_param()'. 
+Questa scelta progettuale separa nettamente la logica del comando SQL dai dati testuali inseriti dall'utente, rendendo vana l'immissione di caratteri di escape malevoli. Inoltre, la sicurezza degli account è garantita lato server tramite l'uso della funzione nativa 'password_hash()' per la cifratura irreversibile delle password prima del salvataggio nel database, e verificata in fase di accesso con 'password_verify()'.
+
+3. VALIDAZIONE COMPLESSA LATO CLIENT (VANILLA JAVASCRIPT)
+Tutti i form sensibili sono schermati lato client da script in Vanilla JavaScript. Nel file 'js/validazioni.js' (collegato alla registrazione), l'invio dei dati viene intercettato e bloccato sul nascere tramite espressioni regolari (Regex) se non rispetta i rigidi vincoli strutturali del testo d'esame:
+- Lo username viene respinto immediatamente tramite un pop-up visivo se non inizia con una lettera alfabetica.
+- La password viene analizzata per garantire una lunghezza compresa tra 8 e 16 caratteri e la presenza contemporanea di almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale.
+
+4. ARCHITETTURA IBRIDA E INTEGRAZIONE CON COMPONENTI REACT
+La pagina delle adozioni ('gatti.php') implementa un'architettura ibrida strutturata su tre pilastri fondamentali:
+
+A. DISACCOPPIAMENTO: La logica di frontend in React è totalmente disaccoppiata dal livello di persistenza dei dati. Il componente non interroga mai direttamente il database, ma digerisce in modo asincrono un flusso di dati in sola lettura esposto in formato JSON dall'endpoint isolato 'api/get_gatti.php'.
+
+B. CONDIZIONAMENTO DELLO STATO: La funzione 'gestisciSelezione' all'interno del modulo React scherma la logica applicativa verificando lo stato della variabile globale 'isLoggato' (passata in sicurezza da PHP). I visitatori anonimi possono così sfruttare liberamente le funzioni di ricerca e ordinamento, ma viene loro impedito di interagire con le card o generare selezioni fantasma, invitandoli visivamente ad accedere.
+
+C. PROPAGAZIONE NATIVA DEGLI EVENTI (React ⇆ Vanilla JS): Al fine di far convivere il rendering dinamico delle card (React) con il form di prenotazione della visita (Vanilla JS) senza introdurre pesanti librerie terze di state-management, si è optato per una comunicazione a propagazione nativa. Ogni volta che lo stato delle card selezionate cambia, React scatena un 'CustomEvent' globale chiamato "gattiSelezionatiCambiati" sul 'document'. Lo script Vanilla JS intercetta l'evento in tempo reale, estrae l'array degli ID dei gatti scelti, aggiorna il testo informativo del form e valorizza un input di tipo 'hidden' per consentire il successivo salvataggio relazionale in PHP al submit della pagina.
+========================================================================
