@@ -1,11 +1,9 @@
 <?php
 require_once 'includes/db.php';
 // Avviamo la sessione PRIMA di includere l'header, per poter gestire i reindirizzamenti se necessario
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+if (session_status() === PHP_SESSION_NONE) { session_start();}
 
-// Se l'utente è già loggato, lo rimandiamo alla home[cite: 1]
+// Se l'utente è già loggato, lo rimandiamo alla home
 if (isset($_SESSION['username'])) {
     header("Location: home.php");
     exit();
@@ -14,9 +12,9 @@ if (isset($_SESSION['username'])) {
 $messaggio = "";
 $username_precompilato = "";
 
-// LUSTRAZIONE DEL COOKIE: Controlliamo se esiste il cookie "ricordami" (valido nelle 72 ore)[cite: 1]
+// LUSTRAZIONE DEL COOKIE: Controlliamo se esiste il cookie "ricordami" (valido nelle 72 ore)
 if (isset($_COOKIE['ricordami_utente'])) {
-    $username_precompilato = $_COOKIE['ricordami_utente']; // Recupera lo username salvato[cite: 1]
+    $username_precompilato = $_COOKIE['ricordami_utente']; // Recupera lo username salvato
 }
 
 // Elaborazione del form quando viene sottomesso
@@ -28,9 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($username) || empty($password)) {
         $messaggio = "Inserisci sia lo username che la password.";
     } else {
-        $conn = connetti_lettore(); // Utilizzo dell'utente DB "lettore" per la verifica delle credenziali[cite: 1]
+        $conn = connetti_lettore(); // Utilizzo dell'utente DB lettore per la verifica delle credenziali
 
-        // Prepariamo la query per estrarre l'utente[cite: 2]
+        // Prepariamo la query per estrarre l'utente
         $stmt = $conn->prepare("SELECT id, username, password, is_admin FROM utenti WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -49,9 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION['username'] = $utente['username'];
                 $_SESSION['is_admin'] = (bool)$utente['is_admin']; // true se amministratore, false se utente standard
 
-                // GESTIONE COOKIE "RICORDAMI"[cite: 1]
+                // GESTIONE COOKIE "RICORDAMI"
                 if ($ricordami) {
-                    // Impostiamo il cookie per 72 ore (72 ore * 3600 secondi = 259200 secondi)[cite: 1]
+                    // Impostiamo il cookie per 72 ore (72 ore * 3600 secondi = 259200 secondi)
                     setcookie('ricordami_utente', $username, time() + 259200, "/", "", false, true);
                 } else {
                     // Se l'utente NON spunta la casella, eliminiamo il cookie esistente
@@ -74,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-// Includiamo l'header comune che mostrerà dinamicamente lo stato di "non loggato"[cite: 1]
+// Includiamo l'header comune che mostrerà dinamicamente lo stato di "non loggato"
 include_once 'includes/header.php';
 ?>
 
@@ -90,13 +88,13 @@ include_once 'includes/header.php';
 <form method="POST" action="login.php" id="login" class="pannello-form-stretto">
     <div class="campo-form">
         <label for="username">Username:</label>
-        <!-- Precompiliamo il valore se il cookie è presente, altrimenti lasciamo vuoto[cite: 1] -->
+        <!-- Precompiliamo il valore se il cookie è presente, altrimenti lasciamo vuoto -->
         <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($username_precompilato); ?>" required>
     </div>
 
     <div class="campo-form">
         <label for="password">Password:</label>
-        <!-- Il campo password viene lasciato rigorosamente vuoto per specifiche d'esame[cite: 1] -->
+        <!-- Il campo password viene lasciato rigorosamente vuoto per specifiche -->
         <input type="password" id="password" name="password" required>
     </div>
 
