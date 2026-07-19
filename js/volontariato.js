@@ -1,47 +1,76 @@
-// js/volontariato.js
-
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("form-volontariato");
-    if (!form) return; // Se l'utente non è loggato il form non c'è, interrompiamo lo script
+    const divErrore = document.getElementById("errore-js");
+    const radioButtons = document.querySelectorAll('input[name="fascia_oraria"]');
 
-    // 1. Interroghiamo asincronamente l'API per verificare lo stato attuale degli slot[cite: 1]
-    fetch("api/get_turni.php")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Impossibile recuperare i dati dei turni dal server.");
+    // Funzione che interroga il server per verificare il numero di iscritti e disabilita le fasce
+    function aggiornaDisponibilita() {
+        fetch("api/get_turni.php")
+            .then(response => response.json())
+            .then(data => {
+                radioButtons.forEach(radio => {
+                    const conteggio = data[radio.value] || 0;
+                    const spanStato = radio.nextElementSibling;
+                    
+                    if (conteggio >= 2) {
+                        radio.disabled = true; // Impedisce la sottomissione disabilitandolo visivamente
+                        if (spanStato) spanStato.textContent = " (Completo)";
+                        spanStato.style.color = "red";
+                    } else {
+                        radio.disabled = false;
+                        if (spanStato) spanStato.textContent = ` (${conteggio}/2 iscritti)`;
+                        spanStato.style.color = "green";
+                    }
+                });
+            })
+            .catch(err => console.error("Errore recupero turni:", err));
+    }
+
+    // Eseguiamo al caricamento per blindare le fasce piene
+    aggiornaDisponibilita();
+
+    if (form) {
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Blocchiamo il refresh e gestiamo via Fetch API
+            
+            const formData = new FormData(form);
+            const fasciaOraria = formData.get("fascia_oraria");
+
+            if (!fasciaOraria) {
+                mostraMessaggio("errore", "Seleziona una fascia oraria valida.");
+                return;
             }
-            return response.json();
-        })
-        .then(slotOccupati => {
-            // Cerchiamo tutti i radio button presenti nel form
-            const inputsRadio = form.querySelectorAll("input[type='radio'][name='fascia_oraria']");
 
-            inputsRadio.forEach(radio => {
-                const valoreFascia = radio.value;
-                // Se la fascia oraria esiste nel JSON, prendiamo il totale degli iscritti, altrimenti è 0
-                const iscritti = slotOccupati[valoreFascia] ? slotOccupati[valoreFascia] : 0;
-                
-                // Troviamo lo span di testo affiancato al radio per aggiornare la dicitura
-                const contenitoreLabel = radio.parentElement;
-                const indicatoreStato = contenitoreLabel.querySelector(".stato-slot");
-
-                if (iscritti >= 2) {
-                    // Se lo slot ha raggiunto o superato il limite di 2 volontari, disabilitiamo l'input[cite: 1]
-                    radio.disabled = true;
-                    indicatoreStato.innerText = "(❌ Completo - Max 2 volontari)";
-                    indicatoreStato.style.color = "#dc3545";
-                    contenitoreLabel.style.color = "#aaa"; // Grigio per indicare che non è cliccabile
-                } else {
-                    // Altrimenti mostriamo i posti ancora disponibili
-                    const postiLiberi = 2 - iscritti;
-                    indicatoreStato.innerText = "(" + postiLiberi + " posti disponibili)";
-                    indicatoreStato.style.color = "#28a745";
+            fetch("api/prenota_turno.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "error") {
+                    mostraMessaggio("errore", data.message);
+                } else if (data.status === "success") {
+                    mostraMessaggio("successo", data.message);
+                    form.reset();
+                    aggiornaDisponibilita(); // Ricarichiamo le disponibilità aggiornate
                 }
+            })
+            .catch(error => {
+                console.error("Errore fetch:", error);
+                mostraMessaggio("errore", "Errore di connessione al server.");
             });
-        })
-        .catch(error => {
-            const divErrore = document.getElementById("errore-js");
-            divErrore.innerText = "Errore di caricamento: " + error.message;
-            divErrore.style.display = "block";
         });
+    }
+
+    function mostraMessaggio(tipo, testo) {
+        if (!divErrore) return;
+        divErrore.textContent = testo;
+        divErrore.classList.remove("hidden-alert", "alert-success", "alert-danger");
+        
+        if (tipo === "errore") {
+            divErrore.classList.add("alert-danger");
+        } else {
+            divErrore.classList.add("alert-success");
+        }
+    }
 });

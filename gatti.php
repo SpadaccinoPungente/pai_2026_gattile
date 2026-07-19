@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['azione_prenota'])) {
         </form>
     <?php else: ?>
         <div class="alert alert-warning">
-            ⚠️ <strong>Avviso:</strong> Per selezionare i gatti e prenotare una visita in struttura, devi prima <a href="login.php">effettuare l'accesso</a> o <a href="registrazione.php">registrarti</a>[cite: 1].
+            ⚠️ <strong>Avviso:</strong> Per selezionare i gatti e prenotare una visita in struttura, devi prima <a href="login.php">effettuare l'accesso</a> o <a href="registrazione.php">registrarti.</a>
         </div>
     <?php endif; ?>
 </div>

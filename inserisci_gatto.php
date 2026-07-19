@@ -126,7 +126,7 @@ include_once 'includes/header.php';
         </div>
     </div>
 
-    <button type="submit" class="bottone-admin">Crea Scheda Felino</button>
+    <button type="submit" id="btn-inserisci-gatto" class="bottone-admin">Crea Scheda Felino</button>
 </form>
 
 <!-- Inclusione dello script Vanilla JS dedicato alla validazione della scheda -->

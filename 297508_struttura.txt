@@ -1,6 +1,6 @@
 home.php
-registrazione.php,form:form-registrazione,text:nome,text:cognome,text:indirizzo,text:username,password:password,password:conferma_password
-login.php,form:login,text:username,password:password,checkbox:ricordami
-inserisci_gatto.php,form:form-gatto,text:nome,textarea:descrizione,number:peso,number:eta,text:colore_mantello,text:lunghezza_pelo,text:razza,text:colore_occhi,select:sesso,date:data_arrivo
-gatti.php,form:form-prenotazione-visita,hidden:azione_prenota,hidden:gatti_selezionati_input,datetime-local:data_ora
-volontariato.php,form:form-volontariato,radio:fascia_oraria
+registrazione.php,form:form-registrazione,text:nome,text:cognome,text:indirizzo,text:username,password:password,password:conferma_password,submit:btn-registrati
+login.php,form:login,text:username,password:password,checkbox:ricordami,submit:btn-login
+inserisci_gatto.php,form:form-gatto,text:nome,textarea:descrizione,number:peso,number:eta,text:colore_mantello,text:lunghezza_pelo,text:razza,text:colore_occhi,select:sesso,date:data_arrivo,submit:btn-inserisci-gatto
+gatti.php,form:form-prenotazione-visita,hidden:azione_prenota,hidden:gatti_selezionati_input,datetime-local:data_ora,submit:btn-invia-prenotazione
+volontariato.php,form:form-volontariato,radio:fascia_oraria,submit:btn-prenota-turno

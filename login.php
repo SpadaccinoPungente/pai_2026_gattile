@@ -87,7 +87,7 @@ include_once 'includes/header.php';
     </div>
 <?php endif; ?>
 
-<form method="POST" action="login.php" class="pannello-form-stretto">
+<form method="POST" action="login.php" id="login" class="pannello-form-stretto">
     <div class="campo-form">
         <label for="username">Username:</label>
         <!-- Precompiliamo il valore se il cookie è presente, altrimenti lasciamo vuoto[cite: 1] -->
@@ -105,7 +105,7 @@ include_once 'includes/header.php';
         <label for="ricordami">Ricordami su questo browser per 72 ore</label>
     </div>
 
-    <button type="submit" class="bottone-login">Accedi</button>
+    <button type="submit" id="btn-login" class="bottone-login">Accedi</button>
 </form>
 
 <?php

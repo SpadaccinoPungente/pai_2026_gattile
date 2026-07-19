@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input type="password" id="conferma_password" name="conferma_password" required>
     </div>
 
-    <button type="submit" class="bottone-registrazione">Registrati</button>
+    <button type="submit" id="btn-registrati" class="bottone-registrazione">Registrati</button>
 </form>
 
 <!-- Includiamo lo script JavaScript di validazione specifico per questa pagina -->
