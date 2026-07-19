@@ -20,7 +20,7 @@ body {
 main {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 20px; /* Unificato e pulito come da stile originario */
 }
 
 /* 2. TIPOGRAFIA ED ELEMENTI STRUTTURALI SEMPLICI
@@ -49,41 +49,53 @@ p {
 
 /* 3. LAYOUT COMUNI: HEADER E FOOTER
    -------------------------------------------------------------------------- */
-header {
+header.barra-navigazione {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background-color: #ffffff;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #ddd;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    border-bottom: 1px solid #eef2f5;
 }
 
-header h1 {
+header.barra-navigazione h1 {
     font-size: 24px;
     color: #2c3e50;
 }
 
-header nav a {
+header.barra-navigazione .menu-principale a {
     text-decoration: none;
     color: #5a738e;
-    margin-right: 20px;
+    margin-right: 15px;
     font-weight: 500;
     transition: color 0.2s;
 }
 
-header nav a:hover {
+header.barra-navigazione .menu-principale a:hover {
     color: #007bff;
 }
 
-header .user-status {
+/* Regola specifica estratta per l'amministratore */
+header.barra-navigazione .menu-principale a.link-gestione {
+    color: red;
+    font-weight: bold;
+}
+
+header.barra-navigazione .user-status {
     font-size: 14px;
 }
 
-header .user-status a {
+header.barra-navigazione .user-status a {
     text-decoration: none;
     color: #007bff;
     font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Regola specifica estratta per il pulsante di logout */
+header.barra-navigazione .user-status a.link-logout {
+    color: #cc0000;
 }
 
 footer {
