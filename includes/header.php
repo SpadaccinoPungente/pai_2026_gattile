@@ -1,6 +1,6 @@
-<!-- header.php - Intestazione HTML e barra di navigazione -->
-
 <?php
+// header.php - Intestazione HTML e barra di navigazione
+
 // Avvia la sessione (deve essere la prima cosa, header HTTP inviati prima di HTML)
 // PHP_SESSION_DISABLED | PHP_SESSION_NONE | PHP_SESSION_ACTIVE
 if (session_status() === PHP_SESSION_NONE) { session_start(); }

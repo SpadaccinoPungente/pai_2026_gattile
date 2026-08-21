@@ -1,8 +1,8 @@
-<!-- home.php - Pagina principale del sito -->
-
 <?php
+// home.php - Pagina principale del sito
+
 require_once 'includes/db.php'; // Carica db.php per la connessione al database
-include_once 'includes/header.php'; // Include intestazione comune
+include_once 'includes/header.php'; // Include intestazione
 
 // Ultimi 2 gatti (modulo lettore)
 $conn = connetti_lettore();
@@ -22,7 +22,7 @@ $risultato = $conn->query($query);
     <?php if ($risultato && $risultato->num_rows > 0): ?>
         <?php while ($gatto = $risultato->fetch_assoc()): ?>
             <div class="card-gatto">
-                <!-- Placeholder standard richiesto in attesa delle foto reali[cite: 1] -->
+                <!-- Placeholder standard richiesto -->
                 <div class="placeholder-gatto">
                     <span>🐱</span>
                 </div>

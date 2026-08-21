@@ -1,6 +1,6 @@
-<!-- db.php - Gestione connessioni e privilegi -->
-
 <?php
+// db.php - Gestione connessioni e privilegi
+
 // Costanti di connessione al database (evitano hardcoding)
 define('DB_SERVER', 'localhost');
 define('DB_NAME', 'gattile_db');

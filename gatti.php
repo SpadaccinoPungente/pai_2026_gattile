@@ -1,16 +1,14 @@
 <?php
-// Avviamo la sessione per capire lo stato dell'utente
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// Avvio sessione
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
 require_once 'includes/db.php';
 include_once 'includes/header.php';
 
-// Controlliamo se chi naviga è un utente registrato/autenticato
+// Controllo se l'utente è loggato
 $is_loggato = isset($_SESSION['username']) ? 'true' : 'false';
 
-// Gestione del salvataggio del form via POST (quando l'utente prenota la visita)
+// Gestione del form via POST (per la prenotazione di una visita)
 $messaggio_prenotazione = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['azione_prenota'])) {
     if ($is_loggato === 'false') {
@@ -127,10 +125,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['azione_prenota'])) {
 <!-- ========================================== -->
 <!-- 4. I NOSTRI SCRIPT DI LOGICA               -->
 <!-- ========================================== -->
-<!-- Carichiamo prima il componente React (scritto in JSX, interpretato da Babel)[cite: 1] -->
+<!-- Carichiamo prima il componente React (scritto in JSX, interpretato da Babel) -->
 <script type="text/babel" src="js/react-app.js"></script>
 
-<!-- Carichiamo lo script Vanilla JS che gestisce l'ascolto degli eventi DOM e il form di prenotazione[cite: 1] -->
+<!-- Carichiamo lo script Vanilla JS che gestisce l'ascolto degli eventi DOM e il form di prenotazione -->
 <script src="js/prenotazioni_visita.js"></script>
 
 <?php

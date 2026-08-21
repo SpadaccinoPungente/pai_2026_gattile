@@ -20,7 +20,7 @@ Tutti i form sensibili sono schermati lato client da script in Vanilla JavaScrip
 
 4. ARCHITETTURA IBRIDA E INTEGRAZIONE CON COMPONENTI REACT
 La pagina delle adozioni ('gatti.php') implementa un'architettura ibrida strutturata su tre pilastri:
-A. DISACCOPPIAMENTO: La logica di frontend in React è totalmente disaccoppiata. Il componente non interroga mai il DB, ma legge in modo asincrono un flusso dati esposto JSON da 'api/get_gatti.php'.
-B. CONDIZIONAMENTO DELLO STATO: I visitatori anonimi sfruttano liberamente le funzioni di ricerca, ma viene inibita loro l'interazione con le card tramite la variabile di stato passata dal server.
-C. PROPAGAZIONE NATIVA DEGLI EVENTI (React ⇆ Vanilla JS): Per la comunicazione React -> Form di prenotazione, si è adottato un custom event asincrono. React scatena un 'CustomEvent' ("gattiSelezionatiCambiati") direttamente sul Document. Lo script Vanilla intercetta l'evento in tempo reale, estraendo i dati e iniettandoli dinamicamente nei campi hidden del form per il definitivo salvataggio.
+- DISACCOPPIAMENTO: La logica di frontend in React è totalmente disaccoppiata. Il componente non interroga mai il DB, ma legge in modo asincrono un flusso dati esposto JSON da 'api/get_gatti.php'.
+- CONDIZIONAMENTO DELLO STATO: I visitatori anonimi sfruttano liberamente le funzioni di ricerca, ma viene inibita loro l'interazione con le card tramite la variabile di stato passata dal server.
+- PROPAGAZIONE NATIVA DEGLI EVENTI (React ⇆ Vanilla JS): Per la comunicazione React -> Form di prenotazione, si è adottato un custom event asincrono. React scatena un 'CustomEvent' ("gattiSelezionatiCambiati") direttamente sul Document. Lo script Vanilla intercetta l'evento in tempo reale, estraendo i dati e iniettandoli dinamicamente nei campi hidden del form per il definitivo salvataggio.
 ========================================================================

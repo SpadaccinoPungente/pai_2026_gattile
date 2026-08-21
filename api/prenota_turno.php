@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt_check->close();
 
     if ($totale_iscritti >= 2) {
-        // Ritorna errore strutturato in JSON (Specifiche esame)
+        // Ritorna errore strutturato in JSON (come da specifiche)
         echo json_encode(['status' => 'error', 'message' => 'Errore: La fascia oraria selezionata ha già raggiunto il limite massimo di 2 volontari.']);
     } else {
         $stmt_insert = $conn->prepare("INSERT INTO turni_volontariato (utente_id, fascia_oraria) VALUES (?, ?)");
